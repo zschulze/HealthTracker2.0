@@ -1,19 +1,49 @@
 package com.zachschulze.healthtracker20.ui.activities;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.zachschulze.healthtracker20.R;
+import com.zachschulze.healthtracker20.database.FoodItemDataSource;
+import com.zachschulze.healthtracker20.models.FoodItem;
+
+import java.util.List;
 
 
 public class AddMealItemActivity extends ActionBarActivity {
+    EditText mMealName;
+    EditText mCalories;
+    EditText mNumServings;
+    Spinner foodItemsSpinner;
+    Button submit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal_item);
+
+        mMealName = (EditText) findViewById(R.id.mealName);
+        mCalories = (EditText) findViewById(R.id.calories);
+        mNumServings = (EditText) findViewById(R.id.numServings);
+        foodItemsSpinner = (Spinner) findViewById(R.id.foodItems);
+
+        submit = (Button) findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSubmit();
+            }
+        });
+
+        loadSpinnerData();
     }
 
 
@@ -37,5 +67,15 @@ public class AddMealItemActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadSpinnerData() {
+        FoodItemDataSource dataSource = new FoodItemDataSource(getApplicationContext());
+        List<FoodItem> foodItems = dataSource.getAllFoodItems();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<FoodItem>(this, android.R.layout.simple_spinner_item, foodItems);
+    }
+
+    public void onSubmit() {
+
     }
 }
