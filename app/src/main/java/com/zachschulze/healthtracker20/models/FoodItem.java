@@ -68,4 +68,8 @@ public class FoodItem {
     public String getServingUnit() {
         return this._servingunit;
     }
+
+    public String toString() {
+        return (_foodname);
+    }
 }

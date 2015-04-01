@@ -72,7 +72,8 @@ public class AddMealItemActivity extends ActionBarActivity {
     public void loadSpinnerData() {
         FoodItemDataSource dataSource = new FoodItemDataSource(getApplicationContext());
         List<FoodItem> foodItems = dataSource.getAllFoodItems();
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<FoodItem>(this, android.R.layout.simple_spinner_item, foodItems);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, foodItems);
+        foodItemsSpinner.setAdapter(adapter);
     }
 
     public void onSubmit() {
