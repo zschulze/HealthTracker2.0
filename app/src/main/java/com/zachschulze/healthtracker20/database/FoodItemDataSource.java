@@ -22,7 +22,11 @@ public class FoodItemDataSource {
         mHealthTrackerSQliteHelper = new HealthTrackerSQLiteHelper(context);
     }
 
-    public void addFoodItem(FoodItem fooditem) {
+    public boolean addFoodItem(FoodItem fooditem) {
+        if (fooditem.getFoodName() == "" || fooditem.getCalories() == -1 ||
+                fooditem.getServingSize() == -1 || fooditem.getServingUnit() == "") {
+            return false;
+        }
         ContentValues values = new ContentValues();
         values.put(HealthTrackerSQLiteHelper.COLUMN_FOODNAME, fooditem.getFoodName());
         values.put(HealthTrackerSQLiteHelper.COLUMN_CALORIES, fooditem.getCalories());
@@ -33,6 +37,7 @@ public class FoodItemDataSource {
 
         db.insert(HealthTrackerSQLiteHelper.TABLE_FOODITEMS, null, values);
         db.close();
+        return true;
     }
 
     public boolean deleteFoodItem(String foodname) {

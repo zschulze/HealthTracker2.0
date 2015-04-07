@@ -31,7 +31,7 @@ public class AddFoodItemActivity extends ActionBarActivity {
         mServingSize = (EditText) findViewById(R.id.servingSize);
         mServingUnit = (EditText) findViewById(R.id.servingUnit);
 
-        submit = (Button) findViewById(R.id.submit);
+        submit = (Button) findViewById(R.id.submitFoodItem);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,4 +99,47 @@ public class AddFoodItemActivity extends ActionBarActivity {
             Toast.makeText(this, invalidMessage, Toast.LENGTH_LONG).show();
         }
     }
+
+    // Same function used for testing
+    /*public boolean onSubmit(String foodName, int calories, int servingSize, String servingUnit) {
+        String foodNameTest = foodName;
+        int caloriesTest = calories;
+        int servingSizeTest = servingSize;
+        String servingUnitTest = servingUnit;
+
+        String invalidMessage = "Please input:";
+        Boolean valid = true;
+
+        if (foodNameTest.equals("")) {
+            invalidMessage += " (food name)";
+            valid = false;
+        }
+        if (caloriesTest == -1) {
+            invalidMessage += " (calories)";
+            valid = false;
+        }
+        if (servingSizeTest == -1) {
+            invalidMessage += " (serving size)";
+            valid = false;
+        }
+        if (servingUnitTest.equals("")) {
+            invalidMessage += " (serving unit)";
+            valid = false;
+        }
+        if (valid) {
+
+            FoodItem foodItem = new FoodItem(foodNameTest, caloriesTest, servingSizeTest, servingUnitTest);
+
+            FoodItemDataSource dataSource = new FoodItemDataSource(this);
+            dataSource.addFoodItem(foodItem);
+
+            finish();
+
+            return true;
+        } else {
+            Toast.makeText(this, invalidMessage, Toast.LENGTH_LONG).show();
+
+            return false;
+        }
+    }*/
 }

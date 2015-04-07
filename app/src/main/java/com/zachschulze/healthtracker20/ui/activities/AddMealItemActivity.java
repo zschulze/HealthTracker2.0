@@ -1,13 +1,23 @@
 package com.zachschulze.healthtracker20.ui.activities;
 
+import android.app.ActionBar;
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.zachschulze.healthtracker20.R;
@@ -24,7 +34,6 @@ public class AddMealItemActivity extends ActionBarActivity {
     Spinner foodItemsSpinner;
     Button submit;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +42,8 @@ public class AddMealItemActivity extends ActionBarActivity {
         mMealName = (EditText) findViewById(R.id.mealName);
         mCalories = (EditText) findViewById(R.id.calories);
         mNumServings = (EditText) findViewById(R.id.numServings);
-        foodItemsSpinner = (Spinner) findViewById(R.id.foodItems);
 
-        submit = (Button) findViewById(R.id.submit);
+        submit = (Button) findViewById(R.id.submitMealItem);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +81,37 @@ public class AddMealItemActivity extends ActionBarActivity {
         FoodItemDataSource dataSource = new FoodItemDataSource(getApplicationContext());
         List<FoodItem> foodItems = dataSource.getAllFoodItems();
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, foodItems);
-        foodItemsSpinner.setAdapter(adapter);
+
+        // Create a boolean array to store information of the selected values
+        // all values should default to false
+
+        boolean[] checkSelected = new boolean[adapter.getCount()];
+
+        LayoutInflater inflater = (LayoutInflater)AddMealItemActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.pop_up_window_food_items, (ViewGroup)findViewById(R.id.FoodItemsPopUp));
+
+        final PopupWindow pw = new PopupWindow(layout, ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+
+        pw.setBackgroundDrawable(new BitmapDrawable());
+        pw.setTouchable(true);
+        pw.setOutsideTouchable(true);
+        pw.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    pw.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        pw.setContentView(layout);
+        RelativeLayout layout1 = (RelativeLayout) findViewById(R.id.addMealItem);
+        pw.showAsDropDown(layout1);
+
+        final ListView list = (ListView) layout.findViewById(R.DropDownList.dropDownList);
+
     }
 
     public void onSubmit() {
