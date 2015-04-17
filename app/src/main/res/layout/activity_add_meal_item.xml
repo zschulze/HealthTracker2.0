@@ -42,7 +42,7 @@
         android:editable="true"
         android:padding="5dp"
         android:inputType="number"
-        android:layout_below="@+id/foodItems"
+        android:layout_below="@+id/mySpinner1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp" />
@@ -54,20 +54,16 @@
         android:id="@+id/submitMealItem"
         android:layout_below="@+id/numServings"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="40dp" />
 
-    <EditText
+    <com.zachschulze.healthtracker20.adapters.FoodItemSpinnerAdapter
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/foodItems"
-        android:background="#ffd3d3d3"
-        android:hint="Click to Select Food Items"
-        android:editable="true"
-        android:padding="5dp"
-        android:inputType="textCapSentences"
+        android:id="@+id/mySpinner1"
         android:layout_below="@+id/calories"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:background="#D3D3D3" />
 
 </RelativeLayout>
