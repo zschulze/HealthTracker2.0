@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Zach on 3/29/2015.
+ * Created by Zach on 3/29/2015..
  */
 public class FoodItemDataSource {
     private HealthTrackerSQLiteHelper mHealthTrackerSQliteHelper;
