@@ -14,11 +14,9 @@ import java.util.List;
  * Created by Zach on 3/29/2015.
  */
 public class FoodItemDataSource {
-    private Context mContext;
     private HealthTrackerSQLiteHelper mHealthTrackerSQliteHelper;
 
     public FoodItemDataSource(Context context) {
-        mContext = context;
         mHealthTrackerSQliteHelper = new HealthTrackerSQLiteHelper(context);
     }
 
