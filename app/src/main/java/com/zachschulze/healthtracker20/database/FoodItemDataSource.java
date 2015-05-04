@@ -14,10 +14,10 @@ import java.util.List;
  * Created by Zach on 3/29/2015..
  */
 public class FoodItemDataSource {
-    private HealthTrackerSQLiteHelper mHealthTrackerSQliteHelper;
+    private HealthTrackerSQLiteHelper mHealthTrackerSQLiteHelper;
 
     public FoodItemDataSource(Context context) {
-        mHealthTrackerSQliteHelper = new HealthTrackerSQLiteHelper(context);
+        mHealthTrackerSQLiteHelper = new HealthTrackerSQLiteHelper(context);
     }
 
     public boolean addFoodItem(FoodItem fooditem) {
@@ -31,7 +31,7 @@ public class FoodItemDataSource {
         values.put(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGSIZE, fooditem.getServingSize());
         values.put(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGUNIT, fooditem.getServingUnit());
 
-        SQLiteDatabase db = mHealthTrackerSQliteHelper.getWritableDatabase();
+        SQLiteDatabase db = mHealthTrackerSQLiteHelper.getWritableDatabase();
 
         db.insert(HealthTrackerSQLiteHelper.TABLE_FOODITEMS, null, values);
         db.close();
@@ -43,7 +43,7 @@ public class FoodItemDataSource {
 
         String query = "Select * FROM" + HealthTrackerSQLiteHelper.TABLE_FOODITEMS + " WHERE" + HealthTrackerSQLiteHelper.COLUMN_FOODNAME + " = \"" + foodname + "\"";
 
-        SQLiteDatabase db = mHealthTrackerSQliteHelper.getWritableDatabase();
+        SQLiteDatabase db = mHealthTrackerSQLiteHelper.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(query, null);
 
@@ -66,7 +66,7 @@ public class FoodItemDataSource {
         List<FoodItem> foodItems = new ArrayList<FoodItem>();
         String selectQuery = "SELECT * FROM " + HealthTrackerSQLiteHelper.TABLE_FOODITEMS;
 
-        SQLiteDatabase db = mHealthTrackerSQliteHelper.getReadableDatabase();
+        SQLiteDatabase db = mHealthTrackerSQLiteHelper.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -89,7 +89,7 @@ public class FoodItemDataSource {
         List<String> foodNames = new ArrayList<String>();
         String selectQuery = "SELECT * FROM " + HealthTrackerSQLiteHelper.TABLE_FOODITEMS;
 
-        SQLiteDatabase db = mHealthTrackerSQliteHelper.getReadableDatabase();
+        SQLiteDatabase db = mHealthTrackerSQLiteHelper.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
         if (c.moveToFirst()) {

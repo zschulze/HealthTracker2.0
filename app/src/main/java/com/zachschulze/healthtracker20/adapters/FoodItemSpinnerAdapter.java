@@ -17,10 +17,10 @@ import java.util.List;
  * Credit to http://v4all123.blogspot.in/2013/09/spinner-with-multiple-selection-in.html
  */
 public class FoodItemSpinnerAdapter extends Spinner implements DialogInterface.OnMultiChoiceClickListener {
-    String[] _items = null;
-    boolean[] mSelection = null;
+    private String[] _items = null;
+    private boolean[] mSelection = null;
 
-    ArrayAdapter<String> simple_adapter;
+    private ArrayAdapter<String> simple_adapter;
 
     public FoodItemSpinnerAdapter(Context context) {
         super(context);

@@ -17,11 +17,11 @@ import java.util.List;
 
 
 public class AddMealItemActivity extends ActionBarActivity {
-    EditText mMealName;
-    EditText mCalories;
-    EditText mNumServings;
-    Button submit;
-    FoodItemSpinnerAdapter spinner;
+    private EditText mMealName;
+    private EditText mCalories;
+    private EditText mNumServings;
+    private Button submit;
+    private FoodItemSpinnerAdapter spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

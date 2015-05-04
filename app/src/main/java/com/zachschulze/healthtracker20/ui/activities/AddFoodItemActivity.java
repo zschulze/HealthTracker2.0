@@ -15,11 +15,11 @@ import com.zachschulze.healthtracker20.models.FoodItem;
 
 
 public class AddFoodItemActivity extends ActionBarActivity {
-    EditText mFoodName;
-    EditText mCalories;
-    EditText mServingSize;
-    EditText mServingUnit;
-    Button submit;
+    private EditText mFoodName;
+    private EditText mCalories;
+    private EditText mServingSize;
+    private EditText mServingUnit;
+    private Button submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
