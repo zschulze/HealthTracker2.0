@@ -18,6 +18,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            // Run code coverage by opening gradle terminal
+            // Execute "gradlew createDebugCoverageReport"
             testCoverageEnabled true
         }
     }
