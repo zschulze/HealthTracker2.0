@@ -20,6 +20,7 @@ android {
         debug {
             // Run code coverage by opening gradle terminal
             // Execute "gradlew createDebugCoverageReport"
+            // Results found at C:\Users\Zach\AndroidStudioProjects\HealthTracker2.0\app\build\outputs\reports\coverage\debug
             testCoverageEnabled true
         }
     }
