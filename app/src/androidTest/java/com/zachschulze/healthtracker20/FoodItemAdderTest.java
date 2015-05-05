@@ -166,9 +166,9 @@ public class FoodItemAdderTest extends ActivityInstrumentationTestCase2<MainActi
         assertEquals(true, successful);
     }
 
-    // In this case "XXX" represents a really long string that is < 32 bits
+    // In this case "XXXXX" represents a really long string that is < 32 bits
     public void testFoodItemAdder23() {
-        FoodItem foodItemTest = new FoodItem("XXX", 100, 1, "Cup");
+        FoodItem foodItemTest = new FoodItem("XXXXX", 100, 1, "Cup");
         boolean successful = mFoodItemDataSource.addFoodItem(foodItemTest);
         assertEquals(true, successful);
     }

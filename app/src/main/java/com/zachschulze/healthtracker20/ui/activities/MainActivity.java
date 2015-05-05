@@ -96,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
-            displayView(0);
+            displayViewFactory(0);
         }
     }
 
@@ -105,7 +105,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // display view for selected nav drawer item
-            displayView(position);
+            displayViewFactory(position);
         }
     }
 
@@ -141,7 +141,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     // Display fragment view for selected nav drawer list item
-    private void displayView(int position) {
+    private void displayViewFactory(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
         switch (position) {
