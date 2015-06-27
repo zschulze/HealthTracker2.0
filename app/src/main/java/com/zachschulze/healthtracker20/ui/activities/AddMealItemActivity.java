@@ -12,7 +12,11 @@ import android.widget.Toast;
 import com.zachschulze.healthtracker20.R;
 import com.zachschulze.healthtracker20.adapters.FoodItemSpinnerAdapter;
 import com.zachschulze.healthtracker20.database.FoodItemDataSource;
+import com.zachschulze.healthtracker20.database.MealItemDataSource;
+import com.zachschulze.healthtracker20.models.FoodItem;
+import com.zachschulze.healthtracker20.models.MealItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,8 +40,7 @@ public class AddMealItemActivity extends ActionBarActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String s = spinner.getSelectedItemsAsString();
-                Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+                onSubmit();
             }
         });
 
@@ -69,7 +72,50 @@ public class AddMealItemActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onSubmit() {
 
+    //List<Integer> foodIndices = spinner.getSelectedIndicies();
+    //Toast.makeText(getApplicationContext(), indices.toString(), Toast.LENGTH_LONG).show();
+
+    public void onSubmit() {
+        String invalidMessage = "Please input:";
+        Boolean valid = true;
+        String mealName = mMealName.getText().toString();
+
+        if (mealName.equals("")) {
+            invalidMessage += " (food name)";
+            valid = false;
+        }
+        if (mCalories.getText().toString().equals("")) {
+            invalidMessage += " (calories)";
+            valid = false;
+        }
+        if (mNumServings.getText().toString().equals("")) {
+            invalidMessage += " (serving size)";
+            valid = false;
+        }
+        if (valid) {
+            int calories = Integer.parseInt(mCalories.getText().toString());
+            int numServings = Integer.parseInt(mNumServings.getText().toString());
+
+            List<Integer> foodIndices = spinner.getSelectedIndicies();
+
+            FoodItemDataSource foodItemDataSource = new FoodItemDataSource(this);
+
+            List<FoodItem> foodItems = new ArrayList<>();
+
+            for (int i = 1; i < (foodIndices.size() + 1); i++) {
+                FoodItem foodItem = foodItemDataSource.getFoodItemAtIndex(i);
+                foodItems.add(foodItem);
+            }
+
+            MealItem mealItem = new MealItem(mealName, calories, numServings, foodItems);
+
+            MealItemDataSource mealItemDataSource = new MealItemDataSource(this);
+            mealItemDataSource.addMealItem(mealItem);
+
+            finish();
+        } else {
+            Toast.makeText(this, invalidMessage, Toast.LENGTH_LONG).show();
+        }
     }
 }

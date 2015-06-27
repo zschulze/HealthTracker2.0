@@ -8,10 +8,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by Zach on 3/1/2015.
- */
-
 public class HealthTrackerSQLiteHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -45,18 +41,16 @@ public class HealthTrackerSQLiteHelper extends SQLiteOpenHelper {
             COLUMN_MEAL_CALORIES + " INTEGER," +
             COLUMN_MEAL_NUMSERVINGS + " INTEGER)";
 
-    /*
     // Food and Meal Junction Table functionality
-    public static final String TABLE_FOODITEMSMEALITEMS = "FOODITEMSMEALITEMS";
+    public static final String TABLE_MEALITEMS_FOODITEMS = "MEALITEMS_FOODITEMS";
     public static final String COLUMN_FOODID = "FOOD_ID";
     public static final String COLUMN_MEALID = "MEAL_ID";
-    private static final String CREATE_FOODITEMSMEALITEMS_TABLE = "CREATE TABLE " +
-            TABLE_FOODITEMSMEALITEMS + "(" +
+    private static final String CREATE_MEALITEMS_FOODITEMS_TABLE = "CREATE TABLE " +
+            TABLE_MEALITEMS_FOODITEMS + "(" +
             COLUMN_FOODID + " INTEGER," +
-            "FOREIGN KEY (" + COLUMN_FOODID + ") REFERENCES " + TABLE_FOODITEMS + "(" + COLUMN_FOOD_ID + ")," +
             COLUMN_MEALID + " INTEGER," +
-            "FOREIGN KEY (" + COLUMN_MEALID + ") REFERENCES " + TABLE_MEALITEMS + "(" + COLUMN_MEAL_ID + ")";
-     */
+            "FOREIGN KEY (" + COLUMN_MEALID + ") REFERENCES " + TABLE_MEALITEMS + "(" + COLUMN_MEALID + "), " +
+            "FOREIGN KEY (" + COLUMN_FOODID + ") REFERENCES " + TABLE_FOODITEMS + "(" + COLUMN_FOODID + "))";
 
     public HealthTrackerSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -66,14 +60,14 @@ public class HealthTrackerSQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_FOODITEMS_TABLE);
         db.execSQL(CREATE_MEALITEMS_TABLE);
-        //db.execSQL(CREATE_FOODITEMSMEALITEMS_TABLE);
+        db.execSQL(CREATE_MEALITEMS_FOODITEMS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOODITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEALITEMS);
-        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOODITEMSMEALITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEALITEMS_FOODITEMS);
         onCreate(db);
     }
 }

@@ -20,16 +20,16 @@ public class FoodItemDataSource {
         mHealthTrackerSQLiteHelper = new HealthTrackerSQLiteHelper(context);
     }
 
-    public boolean addFoodItem(FoodItem fooditem) {
-        if (fooditem.getFoodName() == "" || fooditem.getCalories() == -1 ||
-                fooditem.getServingSize() == -1 || fooditem.getServingUnit() == "") {
+    public boolean addFoodItem(FoodItem foodItem) {
+        if (foodItem.getFoodName() == "" || foodItem.getCalories() == -1 ||
+                foodItem.getServingSize() == -1 || foodItem.getServingUnit() == "") {
             return false;
         }
         ContentValues values = new ContentValues();
-        values.put(HealthTrackerSQLiteHelper.COLUMN_FOODNAME, fooditem.getFoodName());
-        values.put(HealthTrackerSQLiteHelper.COLUMN_FOOD_CALORIES, fooditem.getCalories());
-        values.put(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGSIZE, fooditem.getServingSize());
-        values.put(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGUNIT, fooditem.getServingUnit());
+        values.put(HealthTrackerSQLiteHelper.COLUMN_FOODNAME, foodItem.getFoodName());
+        values.put(HealthTrackerSQLiteHelper.COLUMN_FOOD_CALORIES, foodItem.getCalories());
+        values.put(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGSIZE, foodItem.getServingSize());
+        values.put(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGUNIT, foodItem.getServingUnit());
 
         SQLiteDatabase db = mHealthTrackerSQLiteHelper.getWritableDatabase();
 
@@ -63,7 +63,7 @@ public class FoodItemDataSource {
     }
 
     public List<FoodItem> getAllFoodItems() {
-        List<FoodItem> foodItems = new ArrayList<FoodItem>();
+        List<FoodItem> foodItems = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + HealthTrackerSQLiteHelper.TABLE_FOODITEMS;
 
         SQLiteDatabase db = mHealthTrackerSQLiteHelper.getReadableDatabase();
@@ -72,15 +72,69 @@ public class FoodItemDataSource {
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
             do {
-                FoodItem fooditem = new FoodItem();
-                fooditem.setID(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_ID)));
-                fooditem.setFoodName(c.getString(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOODNAME)));
-                fooditem.setCalories(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_CALORIES)));
-                fooditem.setServingSize(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGSIZE)));
-                fooditem.setServingUnit(c.getString(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGUNIT)));
+                FoodItem foodItem = new FoodItem();
+                foodItem.setID(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_ID)));
+                foodItem.setFoodName(c.getString(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOODNAME)));
+                foodItem.setCalories(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_CALORIES)));
+                foodItem.setServingSize(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGSIZE)));
+                foodItem.setServingUnit(c.getString(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGUNIT)));
 
-                foodItems.add(fooditem);
+                foodItems.add(foodItem);
             } while (c.moveToNext());
+        }
+        return foodItems;
+    }
+
+    public FoodItem getFoodItemAtIndex(int index) {
+        FoodItem foodItem = new FoodItem();
+        String selectQuery = "SELECT * FROM " + HealthTrackerSQLiteHelper.TABLE_FOODITEMS +
+                " WHERE " + HealthTrackerSQLiteHelper.COLUMN_FOOD_ID + "=" + index;
+
+        SQLiteDatabase db = mHealthTrackerSQLiteHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            foodItem.setID(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_ID)));
+            foodItem.setFoodName(c.getString(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOODNAME)));
+            foodItem.setCalories(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_CALORIES)));
+            foodItem.setServingSize(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGSIZE)));
+            foodItem.setServingUnit(c.getString(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGUNIT)));
+        }
+        return foodItem;
+    }
+
+    public List<FoodItem> getAllFoodItemsForMeal(int currentMealId) {
+        List<FoodItem> foodItems = new ArrayList<>();
+        String junctionSelectQuery = "SELECT * FROM " + HealthTrackerSQLiteHelper.TABLE_MEALITEMS_FOODITEMS +
+                " WHERE " + HealthTrackerSQLiteHelper.COLUMN_MEALID + "=" + currentMealId;
+
+        SQLiteDatabase db = mHealthTrackerSQLiteHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(junctionSelectQuery, null);
+        List<Integer> foodIds = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                foodIds.add(c.getInt(c.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOODID)));
+            } while (c.moveToNext());
+        }
+
+        for (int i = 0; i < foodIds.size(); i++) {
+            String foodSelectQuery = "SELECT * FROM " + HealthTrackerSQLiteHelper.TABLE_FOODITEMS + " WHERE " +
+                    HealthTrackerSQLiteHelper.COLUMN_FOOD_ID + "=" + foodIds.get(i);
+            SQLiteDatabase db2 = mHealthTrackerSQLiteHelper.getReadableDatabase();
+            Cursor c2 = db2.rawQuery(foodSelectQuery, null);
+            if (c2.moveToFirst()) {
+                do {
+                    FoodItem foodItem = new FoodItem();
+                    foodItem.setID(c2.getInt(c2.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_ID)));
+                    foodItem.setFoodName(c2.getString(c2.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOODNAME)));
+                    foodItem.setCalories(c2.getInt(c2.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_CALORIES)));
+                    foodItem.setServingSize(c2.getInt(c2.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGSIZE)));
+                    foodItem.setServingUnit(c2.getString(c2.getColumnIndex(HealthTrackerSQLiteHelper.COLUMN_FOOD_SERVINGUNIT)));
+
+                    foodItems.add(foodItem);
+                } while (c2.moveToNext());
+            }
         }
         return foodItems;
     }
